@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrowed Books</title>
+</head>
+<body>
+    <h1>Borrowed Books</h1>
+    
+    <!-- Table to display borrowed books -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Acc No</th>
+                <th>Author</th>
+                <th>Student ID</th>
+                <th>Username</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="borrowTableBody">
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch the borrowed books from the server
+        fetch('/borrowedBooks')
+            .then(response => {
+                console.log("pakistan")
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const tableBody = document.getElementById('borrowTableBody');
+                tableBody.innerHTML = '';
+
+                data.forEach(borrow => {
+                    const row = document.createElement('tr');
+
+                    const bookIDCell = document.createElement('td');
+                    bookIDCell.textContent = borrow.BookID._id || borrow.BookID;  // Adjusted key
+                    row.appendChild(bookIDCell);
+
+                    const titleCell = document.createElement('td');
+                    titleCell.textContent = borrow.BookID.Title || borrow.Title;  // Adjusted key
+                    row.appendChild(titleCell);
+
+                    const accNoCell = document.createElement('td');
+                    accNoCell.textContent = borrow.BookID.AccNo || borrow.AccNo;  // Adjusted key
+                    row.appendChild(accNoCell);
+
+                    const authorCell = document.createElement('td');
+                    authorCell.textContent = borrow.BookID.Author || borrow.Author;  // Adjusted key
+                    row.appendChild(authorCell);
+
+                    const studentIDCell = document.createElement('td');
+                    studentIDCell.textContent = borrow.studentID._id || borrow.studentID;  // Adjusted key
+                    row.appendChild(studentIDCell);
+
+                    const usernameCell = document.createElement('td');
+                    usernameCell.textContent = borrow.studentID.username || borrow.username;  // Adjusted key
+                    row.appendChild(usernameCell);
+
+                    const phoneCell = document.createElement('td');
+                    phoneCell.textContent = borrow.studentID.phone || borrow.phone;  // Adjusted key
+                    row.appendChild(phoneCell);
+
+                    // Add a return button
+                    const actionCell = document.createElement('td');
+                    const returnForm = document.createElement('form');
+                    returnForm.action = '/returnBook';
+                    returnForm.method = 'POST';
+
+                    const bookIdInput = document.createElement('input');
+                    bookIdInput.type = 'hidden';
+                    bookIdInput.name = 'BookID';
+                    bookIdInput.value = borrow.BookID._id || borrow.BookID;
+
+                    const returnButton = document.createElement('button');
+                    returnButton.type = 'submit';
+                    returnButton.textContent = 'Return Book';
+
+                    returnForm.appendChild(bookIdInput);
+                    returnForm.appendChild(returnButton);
+                    actionCell.appendChild(returnForm);
+                    row.appendChild(actionCell);
+
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching borrowed books:', error);
+            });
+    </script>
+</body>
+</html>

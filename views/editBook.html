@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+</head>
+<body>
+    <h1>Edit Book</h1>
+    <form id="editBookForm">
+        <input type="hidden" id="bookId" name="bookId">
+
+        <label for="BookID">Book ID:</label>
+        <input type="number" id="BookID" name="BookID" required><br>
+
+        <label for="Title">Title:</label>
+        <input type="text" id="Title" name="Title" required><br>
+
+        <label for="Subtitle">Subtitle:</label>
+        <input type="text" id="Subtitle" name="Subtitle"><br>
+
+        <label for="StatementResponsibility">Statement Responsibility:</label>
+        <input type="text" id="StatementResponsibility" name="StatementResponsibility"><br>
+
+        <label for="Author">Author:</label>
+        <input type="text" id="Author" name="Author" required><br>
+
+        <label for="Subauthor">Subauthor:</label>
+        <input type="text" id="Subauthor" name="Subauthor"><br>
+
+        <label for="Type">Type:</label>
+        <input type="text" id="Type" name="Type"><br>
+
+        <label for="AccNo">Acc No:</label>
+        <input type="number" id="AccNo" name="AccNo"><br>
+
+        <label for="Price">Price:</label>
+        <input type="number" id="Price" name="Price"><br>
+
+        <label for="EntryDate">Entry Date:</label>
+        <input type="date" id="EntryDate" name="EntryDate"><br>
+
+        <label for="DDC_No">DDC No:</label>
+        <input type="text" id="DDC_No" name="DDC_No"><br>
+
+        <label for="AUTH_Mark">AUTH Mark:</label>
+        <input type="text" id="AUTH_Mark" name="AUTH_Mark"><br>
+
+        <label for="Section">Section:</label>
+        <input type="number" id="Section" name="Section"><br>
+
+        <label for="Reference">Reference:</label>
+        <input type="checkbox" id="Reference" name="Reference"><br>
+
+        <label for="Publisher">Publisher:</label>
+        <input type="text" id="Publisher" name="Publisher"><br>
+
+        <label for="Place">Place:</label>
+        <input type="text" id="Place" name="Place"><br>
+
+        <label for="Year">Year:</label>
+        <input type="number" id="Year" name="Year"><br>
+
+        <label for="Source">Source:</label>
+        <input type="text" id="Source" name="Source"><br>
+
+        <label for="Edition">Edition:</label>
+        <input type="text" id="Edition" name="Edition"><br>
+
+        <label for="Volume">Volume:</label>
+        <input type="text" id="Volume" name="Volume"><br>
+
+        <label for="Pages">Pages:</label>
+        <input type="number" id="Pages" name="Pages"><br>
+
+        <label for="Series">Series:</label>
+        <input type="text" id="Series" name="Series"><br>
+
+        <label for="Language">Language:</label>
+        <input type="text" id="Language" name="Language"><br>
+
+        <label for="Quntity">Quantity:</label>
+        <input type="number" id="Quntity" name="Quntity" required><br>
+
+        <label for="ISBN">ISBN:</label>
+        <input type="number" id="ISBN" name="ISBN"><br>
+
+        <label for="Binding">Binding:</label>
+        <input type="text" id="Binding" name="Binding"><br>
+
+        <label for="Status">Status:</label>
+        <input type="text" id="Status" name="Status"><br>
+
+        <label for="Remarks">Remarks:</label>
+        <input type="text" id="Remarks" name="Remarks"><br>
+
+        <label for="Contents">Contents:</label>
+        <input type="text" id="Contents" name="Contents"><br>
+
+        <label for="Notes">Notes:</label>
+        <input type="text" id="Notes" name="Notes"><br>
+
+        <label for="Subject">Subject:</label>
+        <input type="text" id="Subject" name="Subject"><br>
+
+        <label for="keyword">Keyword:</label>
+        <input type="text" id="keyword" name="keyword"><br>
+
+        <button type="submit">Update Book</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('id');
+            const response = await fetch(`/api/books/${bookId}`);
+            const book = await response.json();
+
+            document.getElementById('bookId').value = book._id;
+            document.getElementById('BookID').value = book.BookID;
+            document.getElementById('Title').value = book.Title;
+            document.getElementById('Subtitle').value = book.Subtitle;
+            document.getElementById('StatementResponsibility').value = book.StatementResponsibility;
+            document.getElementById('Author').value = book.Author;
+            document.getElementById('Subauthor').value = book.Subauthor;
+            document.getElementById('Type').value = book.Type;
+            document.getElementById('AccNo').value = book.AccNo;
+            document.getElementById('Price').value = book.Price;
+            document.getElementById('EntryDate').value = book.EntryDate.split('T')[0];
+            document.getElementById('DDC_No').value = book.DDC_No;
+            document.getElementById('AUTH_Mark').value = book.AUTH_Mark;
+            document.getElementById('Section').value = book.Section;
+            document.getElementById('Reference').checked = book.Reference;
+            document.getElementById('Publisher').value = book.Publisher;
+            document.getElementById('Place').value = book.Place;
+            document.getElementById('Year').value = book.Year;
+            document.getElementById('Source').value = book.Source;
+            document.getElementById('Edition').value = book.Edition;
+            document.getElementById('Volume').value = book.Volume;
+            document.getElementById('Pages').value = book.Pages;
+            document.getElementById('Series').value = book.Series;
+            document.getElementById('Language').value = book.Language;
+            document.getElementById('Quntity').value = book.Quntity;
+            document.getElementById('ISBN').value = book.ISBN;
+            document.getElementById('Binding').value = book.Binding;
+            document.getElementById('Status').value = book.Status;
+            document.getElementById('Remarks').value = book.Remarks;
+            document.getElementById('Contents').value = book.Contents;
+            document.getElementById('Notes').value = book.Notes;
+            document.getElementById('Subject').value = book.Subject;
+            document.getElementById('keyword').value = book.keyword;
+        });
+
+        document.getElementById('editBookForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const bookId = document.getElementById('bookId').value;
+
+            const formData = {
+                BookID: document.getElementById('BookID').value,
+                Title: document.getElementById('Title').value,
+                Subtitle: document.getElementById('Subtitle').value,
+                StatementResponsibility: document.getElementById('StatementResponsibility').value,
+                Author: document.getElementById('Author').value,
+                Subauthor: document.getElementById('Subauthor').value,
+                Type: document.getElementById('Type').value,
+                AccNo: document.getElementById('AccNo').value,
+                Price: document.getElementById('Price').value,
+                EntryDate: document.getElementById('EntryDate').value,
+                DDC_No: document.getElementById('DDC_No').value,
+                AUTH_Mark: document.getElementById('AUTH_Mark').value,
+                Section: document.getElementById('Section').value,
+                Reference: document.getElementById('Reference').checked,
+                Publisher: document.getElementById('Publisher').value,
+                Place: document.getElementById('Place').value,
+                Year: document.getElementById('Year').value,
+                Source: document.getElementById('Source').value,
+                Edition: document.getElementById('Edition').value,
+                Volume: document.getElementById('Volume').value,
+                Pages: document.getElementById('Pages').value,
+                Series: document.getElementById('Series').value,
+                Language: document.getElementById('Language').value,
+                Quntity: document.getElementById('Quntity').value,
+                ISBN: document.getElementById('ISBN').value,
+                Binding: document.getElementById('Binding').value,
+                Status: document.getElementById('Status').value,
+                Remarks: document.getElementById('Remarks').value,
+                Contents: document.getElementById('Contents').value,
+                Notes: document.getElementById('Notes').value,
+                Subject: document.getElementById('Subject').value,
+                keyword: document.getElementById('keyword').value,
+            };
+
+            const response = await fetch(`/api/books/${bookId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+            window.location.href = 'viewBook.html'; // Redirect to view books page
+        });
+    </script>
+</body>
+</html>
